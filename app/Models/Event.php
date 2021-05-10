@@ -15,4 +15,11 @@ class Event extends Model
         return $this->hasMany('App\Models\Workshop');
     }
 	
+	public function upcoming_workshop()
+    {
+		$todayDate = \Carbon\Carbon::now();
+		return $this->workshop()->where('start','>',$todayDate);
+    }
+	
+	
 }

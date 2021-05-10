@@ -177,7 +177,12 @@ class EventsController extends BaseController
      */
 
     public function getFutureEventsWithWorkshops() {
-		$events = Event::with(['workshop'])->get();
+		$todayDate = \Carbon\Carbon::now();
+		$events = Event::with('workshop')->whereHas('workshop', function($q) use($todayDate){
+			$q->where('start','>',$todayDate);
+		})->get();
+
+
 		return json_encode($events);
     }
 }
